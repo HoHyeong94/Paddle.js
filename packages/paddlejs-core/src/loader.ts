@@ -36,7 +36,7 @@ export default class ModelLoader {
         throw new Error('ERROR: empty fetch funciton');
     };
 
-    urlConverter: Function = function () {};
+    urlConverter: Function = function () { };
 
     constructor(modelPath: string, converter: Function) {
         let modelDir = modelPath;
@@ -107,7 +107,7 @@ export default class ModelLoader {
         for (let i = 1; i <= counts; i++) {
             let path = !this.urlConverter ? this.urlConf.dir + this.getFileName(i) : this.urlConverter(i);
             chunkArray.push(
-                path
+                this.fetchOneChunk(path)
             );
         }
         return Promise.all(chunkArray).then(chunks => {
