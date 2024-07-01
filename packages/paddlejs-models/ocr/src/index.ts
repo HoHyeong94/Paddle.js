@@ -39,7 +39,7 @@ function initCanvas(canvas) {
     document.body.appendChild(canvas);
 }
 
-export async function init(detCustomModel = null, recCustomModel = null) {
+export async function init(detCustomModel = null, recCustomModel = null, detUrlConverter = null, recUrlConverter = null) {
     const detModelPath = 'https://paddlejs.bj.bcebos.com/models/fuse/ocr/ch_PP-OCRv2_det_fuse_activation/model.json';
     const recModelPath = 'https://paddlejs.bj.bcebos.com/models/fuse/ocr/ch_PP-OCRv2_rec_fuse_activation/model.json';
     env.set('webgl_pack_output', true);
@@ -49,7 +49,8 @@ export async function init(detCustomModel = null, recCustomModel = null) {
         mean: [0.485, 0.456, 0.406],
         std: [0.229, 0.224, 0.225],
         bgr: true,
-        webglFeedProcess: true
+        webglFeedProcess: true,
+        urlConverter: detUrlConverter
     });
     const detectInit = detectRunner.init();
 
@@ -59,7 +60,8 @@ export async function init(detCustomModel = null, recCustomModel = null) {
         mean: [0.5, 0.5, 0.5],
         std: [0.5, 0.5, 0.5],
         bgr: true,
-        webglFeedProcess: true
+        webglFeedProcess: true,
+        urlConverter: recUrlConverter
     });
     const recInit = recRunner.init();
 

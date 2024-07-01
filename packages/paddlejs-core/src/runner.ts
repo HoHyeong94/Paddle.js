@@ -78,9 +78,9 @@ export default class Runner {
     }
 
     async load() {
-        const { modelPath, modelObj = null } = this.runnerConfig;
+        const { modelPath, modelObj = null, urlConverter } = this.runnerConfig;
         if (modelPath) {
-            const loader = new Loader(modelPath);
+            const loader = new Loader(modelPath, urlConverter);
             this.model = await loader.load();
         }
         else if (modelObj?.model && modelObj?.params) {

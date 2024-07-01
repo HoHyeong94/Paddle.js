@@ -36,7 +36,9 @@ export default class ModelLoader {
         throw new Error('ERROR: empty fetch funciton');
     };
 
-    constructor(modelPath: string) {
+    urlConverter: Function = function () {};
+
+    constructor(modelPath: string, converter: Function) {
         let modelDir = modelPath;
         let filename = 'model.json';
         if (modelPath.endsWith('.json')) {
@@ -60,6 +62,8 @@ export default class ModelLoader {
         };
 
         this.inNode = env.get('platform') === 'node';
+
+        this.urlConverter = converter;
     }
 
     async load() {
@@ -101,8 +105,9 @@ export default class ModelLoader {
         const counts = this.chunkNum;
         const chunkArray: any[] = [];
         for (let i = 1; i <= counts; i++) {
+            let path = !this.urlConverter ? this.urlConf.dir + this.getFileName(i) : this.urlConverter(i);
             chunkArray.push(
-                this.fetchOneChunk(this.urlConf.dir + this.getFileName(i))
+                path
             );
         }
         return Promise.all(chunkArray).then(chunks => {
